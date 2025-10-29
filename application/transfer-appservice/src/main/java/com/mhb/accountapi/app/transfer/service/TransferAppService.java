@@ -35,6 +35,8 @@ public class TransferAppService {
             throw new InsufficientFundsException(optionalFromAccount.get().getAccountId());
         }
 
+        //Given the nature of such an action, it could be implemented in an asynchronous way so that it merely sends
+        // an event/message and returns and then an event handler would pick up the events as they come in.
         transferService.createTransfer(command);
     }
 }
