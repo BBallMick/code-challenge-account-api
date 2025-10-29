@@ -1,0 +1,10 @@
+dependencies {
+    implementation 'org.springframework:spring-context'
+
+    implementation project(':domain:shared-domain')
+    implementation project(':domain:account-domain')
+    implementation project(':domain:transfer-domain')
+
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+}

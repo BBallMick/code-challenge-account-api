@@ -1,0 +1,96 @@
+openapi: 3.0.1
+info:
+  title: Account Management API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v2
+tags:
+  - name: Accounts
+  - name: Users
+  - name: Transfers
+paths:
+  /accounts/:
+    post:
+      tags:
+        - Accounts
+      summary: Create a new account for a given user.
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Account created for given user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+  /users/{userId}/accounts:
+    get:
+      tags:
+        - Users
+      summary: Lists all accounts for a given user.
+      operationId: getAccounts
+      parameters:
+              - name: userId
+                in: path
+                description: ID of the user
+                required: true
+                schema:
+                  type: string
+      responses:
+        "200":
+          description: Returns all accounts for the given user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDTO'
+  /transfers/:
+    post:
+      tags:
+        - Transfers
+      summary: Transfer the specified amount of money between two accounts.
+      operationId: transferMoney
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferMoneyRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Account created for given user.
+components:
+  schemas:
+    CreateAccountRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        userId:
+          type: string
+    AccountDTO:
+      type: object
+      properties:
+        createdDateTime:
+          type: string
+          format: date-time
+        name:
+          type: string
+    TransferMoneyRequestBody:
+      type: object
+      properties:
+        fromAccountId:
+          type: string
+        toAccountId:
+          type: string
+        transferredBy:
+          type: string
+          description: The userId of who makes the transfer.
+        amount:
+          type: number

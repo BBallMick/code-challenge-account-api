@@ -1,0 +1,16 @@
+plugins {
+//    id 'java'
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation project(':domain:account-domain')
+    implementation project(':application:transfer-appservice')
+    implementation project(':infrastructure:restapi')
+    implementation project(':infrastructure:persistence:account-persistence')
+}
+
+tasks.named('bootJar') {
+    mainClass.set('com.mhb.accountapi.AccountapiApplication')
+}

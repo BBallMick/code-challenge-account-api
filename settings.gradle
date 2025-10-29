@@ -1,0 +1,10 @@
+rootProject.name = 'accountapi'
+
+include ':domain:account-domain'
+include ':domain:transfer-domain'
+include ':domain:shared-domain'
+include ':infrastructure:persistence:account-persistence'
+include ':infrastructure:persistence:transfer-persistence'
+include ':infrastructure:restapi'
+include ':application:app'
+include ':application:transfer-appservice'
