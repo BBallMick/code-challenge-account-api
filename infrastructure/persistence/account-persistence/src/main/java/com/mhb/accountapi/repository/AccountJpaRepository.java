@@ -2,7 +2,6 @@ package com.mhb.accountapi.repository;
 
 import com.mhb.accountapi.AccountEntity;
 import com.mhb.accountapi.domain.account.Account;
-import com.mhb.accountapi.domain.account.exception.AccountNotFoundException;
 import com.mhb.accountapi.domain.account.repository.AccountRepository;
 import com.mhb.accountapi.domain.shared.model.id.AccountId;
 import com.mhb.accountapi.domain.shared.model.id.UserId;
@@ -30,7 +29,7 @@ public class AccountJpaRepository implements AccountRepository {
 
     @Override
     public List<Account> findAccountsByUserId(UserId userId) {
-        return springAccountRepository.findAllByUserId(userId).stream()
+        return springAccountRepository.findAllByUserId(userId.getValue()).stream()
                 .map(accountMapper::toAccount)
                 .toList();
     }

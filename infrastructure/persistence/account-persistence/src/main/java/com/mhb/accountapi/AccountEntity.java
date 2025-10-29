@@ -1,6 +1,8 @@
 package com.mhb.accountapi;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 public class AccountEntity {
@@ -13,9 +15,7 @@ public class AccountEntity {
 
     private String name;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private String userId;
 
     public String getName() {
         return name;
@@ -31,5 +31,13 @@ public class AccountEntity {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

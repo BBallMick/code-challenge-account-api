@@ -2,7 +2,9 @@ package com.mhb.accountapi.persistence.transfer.entity;
 
 import com.mhb.accountapi.domain.shared.model.id.AccountId;
 import com.mhb.accountapi.domain.shared.model.id.UserId;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
 

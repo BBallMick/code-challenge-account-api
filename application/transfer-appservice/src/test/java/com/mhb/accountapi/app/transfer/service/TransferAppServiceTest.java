@@ -1,5 +1,6 @@
 package com.mhb.accountapi.app.transfer.service;
 
+import com.mhb.accountapi.app.transfer.exception.InsufficientFundsException;
 import com.mhb.accountapi.domain.account.Account;
 import com.mhb.accountapi.domain.account.exception.AccountNotFoundException;
 import com.mhb.accountapi.domain.account.service.AccountService;
@@ -17,8 +18,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TransferAppServiceTest {
@@ -77,7 +77,10 @@ public class TransferAppServiceTest {
         AccountId accountId1 = new AccountId("1");
         AccountId accountId2 = new AccountId("2");
         when(accountService.getAccount(accountId1)).thenReturn(Optional.of(accountMock));
-        when(accountService.getAccount(accountId2)).thenReturn(Optional.empty());
+        when(accountService.getAccount(accountId2)).thenReturn(Optional.of(accountMock));
+        when(accountMock.getBalance()).thenReturn(BigDecimal.valueOf(-100));
+        when(accountMock.getAccountId()).thenReturn(accountId1);
+
 
         //when + then
         TransferMoneyCommand command = TransferMoneyCommand.builder()
@@ -86,7 +89,29 @@ public class TransferAppServiceTest {
                 .transferredBy(new UserId("user1"))
                 .amount(BigDecimal.TEN)
                 .build();
-        assertThrows(AccountNotFoundException.class, () -> transferAppService.transferMoney(command));
+        assertThrows(InsufficientFundsException.class, () -> transferAppService.transferMoney(command));
+    }
+
+    @Test
+    void givenBalanceGreaterThanAmount_whenTransferringMoney_ThenDoTransfer() throws Exception {
+        //given
+        AccountId accountId1 = new AccountId("1");
+        AccountId accountId2 = new AccountId("2");
+        when(accountService.getAccount(accountId1)).thenReturn(Optional.of(accountMock));
+        when(accountService.getAccount(accountId2)).thenReturn(Optional.of(accountMock));
+        when(accountMock.getBalance()).thenReturn(BigDecimal.valueOf(100));
+
+        //when
+        TransferMoneyCommand command = TransferMoneyCommand.builder()
+                .toAccountId(accountId1)
+                .fromAccountId(accountId2)
+                .transferredBy(new UserId("user1"))
+                .amount(BigDecimal.TEN)
+                .build();
+        transferAppService.transferMoney(command);
+
+        //then
+        verify(transferService).createTransfer(command);
     }
 
 }

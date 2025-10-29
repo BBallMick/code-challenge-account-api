@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.5.7' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
 }
 
 allprojects {
@@ -12,16 +12,6 @@ allprojects {
 		mavenCentral()
 	}
 }
-
-//java {
-//	toolchain {
-//		languageVersion = JavaLanguageVersion.of(21)
-//	}
-//}
-
-//repositories {
-//	mavenCentral()
-//}
 
 subprojects {
 	apply plugin: 'java'
@@ -49,13 +39,19 @@ subprojects {
 		testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	}
+
+	test {
+		useJUnitPlatform()
+	}
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()
