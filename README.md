@@ -37,6 +37,7 @@ Additional Considerations/Design Choices:
 I took the liberty to make use of different tools and libraries to lessen boiler plate, and decrease the chance of human errors when writing the code.
 I'm making use og Lombok to help with boilder plate code for objects, it also comes with the ability to make use of builders and immutability.
 I'm also a big fan of the api first approach when designing and implementing rest servers/clients, so I'm using a tool for auto generating rest servers based on OAS files.
+I did not get to implement it, but I like to include some DB change management tool, like Liquibse. Tools like this helps maintaining schemas, and keeping changes and migrations as source code for everyone to see and benfit from.
 Finally, I'm making use of a mapping library, which removes a lot of boiler plate and can help to auto generate mapping code for mapping between entities -> domain objects -> DTOs.
 Notice that I Have 3 "layers" of objects. I most often prefer to have a domain model separate from the entity model, to increase flexibility in modelling the objects,
 while also hiding specific entity only relates stuff like database IDs, generic audit information and such, which more often than not is not relevant for the actual bussiness domain and it's logic.
